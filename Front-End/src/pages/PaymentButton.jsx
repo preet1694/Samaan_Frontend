@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {baseURL} from "../config/AxiosHelper.jsx";
+import { baseURL } from "../config/AxiosHelper.jsx";
 
 // Load Razorpay SDK
 const loadRazorpayScript = () =>
@@ -13,7 +13,7 @@ const loadRazorpayScript = () =>
         document.body.appendChild(script);
     });
 
-const PaymentButton = ({ tripId, amount, senderEmail, onSuccess }) => {
+const PaymentButton = ({ tripId, senderEmail, onSuccess }) => {
     const handlePayment = async () => {
         const isLoaded = await loadRazorpayScript();
         if (!isLoaded) {
@@ -22,10 +22,9 @@ const PaymentButton = ({ tripId, amount, senderEmail, onSuccess }) => {
         }
 
         try {
-            // Create Razorpay order
             const { data: orderData } = await axios.post(
                 `${baseURL}/payment/create-order/${tripId}`,
-                { tripId, amount },
+                {},
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -33,23 +32,22 @@ const PaymentButton = ({ tripId, amount, senderEmail, onSuccess }) => {
                 }
             );
 
-            const { id: order_id, currency } = orderData;
-            const razorpay_key= import.meta.env.VITE_RAZORPAY_KEY; // Replace with your actual Razorpay test/live key
             const options = {
-                key: `${razorpay_key}`, // Replace with your actual Razorpay test/live key
-                amount: amount * 100, // Razorpay takes amount in paisa
-                currency,
+                key: orderData.key,                  // ✅ Use key from backend
+                amount: orderData.amount,            // ✅ Use amount from backend
+                currency: orderData.currency,
                 name: "Samaan Pooling",
                 description: `Payment for Trip ID: ${tripId}`,
-                order_id,
+                order_id: orderData.orderId,
                 handler: async function (response) {
                     try {
                         await axios.post(
                             `${baseURL}/payment/verify`,
                             {
-                                razorpay_order_id: response.razorpay_order_id,
-                                razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_signature: response.razorpay_signature,
+                                razorpayOrderId: response.razorpay_order_id,
+                                razorpayPaymentId: response.razorpay_payment_id,
+                                razorpaySignature: response.razorpay_signature,
+                                tripId: tripId, // keep this as is
                             },
                             {
                                 headers: {
@@ -57,8 +55,9 @@ const PaymentButton = ({ tripId, amount, senderEmail, onSuccess }) => {
                                 },
                             }
                         );
+
                         toast.success("Payment successful!");
-                        onSuccess?.(); // Optional callback
+                        onSuccess?.();
                     } catch (error) {
                         toast.error("Payment verification failed.");
                         console.error("Verification error:", error);
@@ -85,7 +84,7 @@ const PaymentButton = ({ tripId, amount, senderEmail, onSuccess }) => {
             onClick={handlePayment}
             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
         >
-            Pay ₹{amount}
+            Pay Now
         </button>
     );
 };
