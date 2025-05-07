@@ -4,6 +4,7 @@ import { CheckCircle, Clock } from "lucide-react";
 import ReactStars from "react-stars";
 import toast, { Toaster } from "react-hot-toast";
 import axiosInstance,{baseURL} from "../config/AxiosHelper";
+import PaymentButton from "./PaymentButton.jsx";
 
 export const SenderDashboard = () => {
   const navigate = useNavigate();
