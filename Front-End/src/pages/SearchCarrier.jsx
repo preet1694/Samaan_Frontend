@@ -306,7 +306,7 @@ export const SearchCarrier = () => {
                         Vehicle Type: <b>{carrier.vehicleType.toUpperCase()}</b>
                       </p>
                       <p className="text-sm text-green-600 font-semibold mt-1">
-                        Price: ₹ {prices[carrier.id] || "N/A"}
+                        Price: ₹ {carrier.price || prices[carrier.id] || "N/A"}
                       </p>
                     </div>
 
