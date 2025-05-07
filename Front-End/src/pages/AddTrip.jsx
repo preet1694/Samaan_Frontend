@@ -98,7 +98,7 @@ export const AddTrip = () => {
         formData
       );
 
-      if (!response.ok) throw new Error("Failed to add trip");
+      // if (!response.ok) throw new Error("Failed to add trip");
 
       toast.success("Trip added successfully!");
       navigate("/carrier/dashboard");
