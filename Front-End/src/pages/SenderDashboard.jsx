@@ -294,11 +294,11 @@ export const SenderDashboard = () => {
                           {!trip.paid && (
                               <PaymentButton
                                   tripId={id}
-                                  amount={trip.amount} // Assuming amount is available on trip object
+                                  amount={trip.amount}
                                   senderEmail={senderEmail}
                                   onSuccess={() => {
                                     toast.success("Payment marked as done!");
-                                    fetchSelectedTrips(); // Refresh UI after payment
+                                    fetchSelectedTrips();
                                   }}
                               />
                           )}

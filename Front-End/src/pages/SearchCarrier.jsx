@@ -145,7 +145,7 @@ export const SearchCarrier = () => {
           date: formattedDate,
         },
       });
-      console.log("Search response:", response.data);
+      // console.log("Search response:", response.data);
       setCarriers(response.data);
     } catch (err) {
       console.error("Search failed:", err);

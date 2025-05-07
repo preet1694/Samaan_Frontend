@@ -22,6 +22,7 @@ export const Profile = () => {
   const [upiId, setUpiId] = useState("");
   const [withdrawStatus, setWithdrawStatus] = useState("");
   const storedEmail = localStorage.getItem("email");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const fetchProfile = async () => {
     try {
@@ -71,6 +72,7 @@ export const Profile = () => {
     }
 
     try {
+      setIsProcessing(true);
       const res = await axiosInstance.post(`${baseURL}/payout/send`, {
         name: profile.name,
         email: profile.email,
@@ -83,6 +85,8 @@ export const Profile = () => {
     } catch (err) {
       console.error("Withdrawal failed:", err);
       setWithdrawStatus("❌ Withdrawal failed.");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -254,10 +258,20 @@ export const Profile = () => {
           <div className="bg-white shadow-lg rounded-xl p-6">
             <div className="flex items-center space-x-3 mb-4">
               <Wallet className="text-green-600 w-6 h-6" />
-              <h2 className="text-lg font-semibold text-gray-800">
-                Carrier Wallet
-              </h2>
+              <h2 className="text-lg font-semibold text-gray-800">Wallet</h2>
+              <p className="text-sm text-yellow-600 mt-1 font-medium">
+                ⚠️ These transactions are dummy and for testing purposes only.
+              </p>
             </div>
+
+            {isProcessing && (
+              <div className="w-full mb-4 animate-fadeIn">
+                <div className="h-1.5 w-full bg-indigo-100 overflow-hidden rounded-full">
+                  <div className="animate-progress-bar w-full h-full bg-indigo-600 origin-left-center"></div>
+                </div>
+              </div>
+            )}
+
             <div className="flex justify-between items-center mb-4">
               <p className="text-gray-600">Available Balance:</p>
               <div className="flex items-center font-bold text-green-700 text-xl">
@@ -279,14 +293,14 @@ export const Profile = () => {
             </div>
             <button
               onClick={handleWithdraw}
-              disabled={walletAmount === 0}
+              disabled={walletAmount === 0 || isProcessing}
               className={`w-full px-4 py-2 rounded-md text-white ${
-                walletAmount === 0
+                walletAmount === 0 || isProcessing
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-green-600 hover:bg-green-700"
               }`}
             >
-              Withdraw ₹{walletAmount}
+              {isProcessing ? "Processing..." : `Withdraw ₹${walletAmount}`}
             </button>
             {withdrawStatus && (
               <p className="text-sm mt-3 text-center text-blue-600">

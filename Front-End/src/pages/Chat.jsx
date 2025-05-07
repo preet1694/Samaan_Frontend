@@ -6,8 +6,8 @@ import axiosInstance, { baseURL } from "../config/AxiosHelper";
 import EmojiPicker from "emoji-picker-react";
 import { FaSmile } from "react-icons/fa";
 
-const webSocket = import.meta.env.VITE_WEB_SOCKET;
-
+// const webSocket = import.meta.env.VITE_WEB_SOCKET;
+const webSocket = "http://localhost:8080/ws";
 const Chat = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
