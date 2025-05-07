@@ -5,7 +5,7 @@
 ![MongoDB](https://img.shields.io/badge/database-MongoDB-4EA94B?logo=mongodb)
 
 Live Project: 👉 [Visit Now](https://samaan.onrender.com)  
-Backend Repository: 👉 [GitHub - Backend Repo](https://github.com/preet1694/Samaan-Backend)
+Backend Repository: 👉 [GitHub - Backend Repo](https://github.com/preet1694/Samaan_Backend.git)
 
 ---
 
