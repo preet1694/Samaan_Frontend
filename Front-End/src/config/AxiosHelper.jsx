@@ -5,8 +5,8 @@ const navigateToLogin = () => {
   window.location.href = "/login";
 };
 
-export const baseURL = "http://localhost:8080/api";
-// export const baseURL = import.meta.env.VITE_BACKEND_URL;
+// export const baseURL = "http://localhost:8080/api";
+export const baseURL = import.meta.env.VITE_BACKEND_URL;
 const axiosInstance = axios.create({
   baseURL,
   headers: {
