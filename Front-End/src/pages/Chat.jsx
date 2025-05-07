@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
-import axiosInstance,{baseURL} from "../config/AxiosHelper";
+import axiosInstance, { baseURL } from "../config/AxiosHelper";
 import EmojiPicker from "emoji-picker-react";
 import { FaSmile } from "react-icons/fa";
 
-const webSocket = import.meta.env.WEB_SOCKET;
+const webSocket = import.meta.env.VITE_WEB_SOCKET;
 
 const Chat = () => {
   const location = useLocation();
@@ -54,7 +54,9 @@ const Chat = () => {
 
   const fetchUserName = async (email, setName) => {
     try {
-      const res = await axiosInstance.get(`${baseURL}/users/name`, { params: { email } });
+      const res = await axiosInstance.get(`${baseURL}/users/name`, {
+        params: { email },
+      });
       setName(res.data);
     } catch {
       setName(email);
