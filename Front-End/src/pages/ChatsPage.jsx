@@ -89,7 +89,7 @@ const ChatsPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white p-4 sm:p-6">
       <div className="max-w-5xl mx-auto bg-white p-4 sm:p-6 rounded-2xl shadow-lg animate-fadeIn">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center sm:text-left">
-          Chats with Senders
+          Previous Chats
         </h2>
 
         {loading ? (

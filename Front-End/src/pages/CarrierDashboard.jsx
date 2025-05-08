@@ -251,7 +251,7 @@ export const CarrierDashboard = () => {
                                   Payment Pending
                                 </span>
                               ))}
-                            {new Date(trip.date) >= today &&
+                            {new Date(trip.date) > today &&
                               !trip.senderRequestedCancel &&
                               !trip.carrierRequestedCancel && (
                                 <button
