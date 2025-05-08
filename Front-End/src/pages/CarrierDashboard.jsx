@@ -10,9 +10,7 @@ export const CarrierDashboard = () => {
   const [cancelModalTripId, setCancelModalTripId] = useState(null);
   const [completeModalTripId, setCompleteModalTripId] = useState(null);
 
-  const today = new Date().toLocaleString("en-IN", {
-  timeZone: "Asia/Kolkata"
-});
+  const today = new Date();
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
