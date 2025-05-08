@@ -26,13 +26,12 @@ const Footer = () => {
             <span className="text-white font-semibold">Samaan</span>. All Rights
             Reserved.
           </p>
-          
         </div>
 
         {/* Social Icons */}
         <div className="flex space-x-6 text-gray-400">
           <a
-            href="https://github.com/preet1694/Samaan"
+            href="https://github.com/preet1694/Samaan_Frontend.git"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition"
@@ -40,7 +39,7 @@ const Footer = () => {
             <Github className="h-7 w-7" />
           </a>
           <a
-            href="mailto:preet.brahmbhatt16@gmail.com"
+            href="mailto:team.samaan2025@gmail.com"
             className="hover:text-white transition"
           >
             <Mail className="h-7 w-7" />
