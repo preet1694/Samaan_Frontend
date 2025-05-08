@@ -308,7 +308,7 @@ export const SenderDashboard = () => {
                             new Date(trip.date) >= new Date() && (
                               <button
                                 onClick={() => setCancelModalTripId(id)}
-                                className="text-sm text-red-600 hover:text-red-800"
+                                className="ml-4 text-sm text-red-600 hover:text-red-800"
                               >
                                 Request Cancellation
                               </button>
