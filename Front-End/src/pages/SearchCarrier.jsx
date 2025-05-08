@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import debounce from "lodash/debounce";
 import { Search, MessageCircle, CheckCircle } from "lucide-react";
 import axiosInstance, { baseURL } from "../config/AxiosHelper";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -184,7 +186,7 @@ export const SearchCarrier = () => {
 
   const handleChat = (selectedTrip) => {
     const carrierEmail = selectedTrip.email;
-    if (!carrierEmail) return alert("Carrier email not found!");
+    if (!carrierEmail) return toast.error("Carrier email not found!");
     const roomId = `${senderEmail}_${carrierEmail}`;
     localStorage.setItem("roomId", roomId);
     navigate(`/join-chat?roomId=${roomId}`, {
@@ -194,7 +196,7 @@ export const SearchCarrier = () => {
 
   const handleSelectCarrier = async (trip) => {
     if (!senderEmail)
-      return alert("Please log in as a sender to select a carrier.");
+      return toast.info("Please log in as a sender to select a carrier.");
     try {
       await axiosInstance.post(`${baseURL}/trips/select`, {
         senderEmail,
@@ -202,10 +204,10 @@ export const SearchCarrier = () => {
         carrierEmail: trip.email,
       });
       setSelectedTripId(trip.id);
-      alert("Carrier selected successfully!");
+      toast.success("Carrier selected successfully!");
     } catch (err) {
       console.error("Error selecting carrier:", err);
-      alert("Failed to select carrier. Please try again.");
+      toast.error("Failed to select carrier. Please try again.");
     }
   };
 

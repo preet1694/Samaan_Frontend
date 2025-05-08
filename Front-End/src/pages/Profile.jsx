@@ -12,6 +12,8 @@ import {
 import profileimg from "../assets/profile.jpg";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -67,7 +69,7 @@ export const Profile = () => {
 
   const handleWithdraw = async () => {
     if (!upiId) {
-      alert("Enter your UPI ID");
+      toast.error("Enter your UPI ID");
       return;
     }
 
@@ -105,13 +107,13 @@ export const Profile = () => {
 
     try {
       await axiosInstance.post(`${baseURL}/users/update`, profile);
-      alert("Profile updated successfully!");
+      toast.success("Profile updated successfully!");
       setIsEditing(false);
       setPhoneError(null);
       fetchProfile();
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile");
+      toast.error("Failed to update profile");
     }
   };
 

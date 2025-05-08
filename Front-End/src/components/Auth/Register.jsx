@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Mail, Lock, User, Package } from "lucide-react";
 import { GoogleAuth } from "./GoogleAuth";
 import axiosInstance, { baseURL } from "../../config/AxiosHelper";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ export const Register = () => {
   };
 
   const handleSendOtp = async () => {
-    if (!formData.email) return alert("Please enter an email address.");
+    if (!formData.email) return toast.error("Please enter an email address.");
     try {
       setIsSendingOtp(true);
       const res = await axiosInstance.post(`${baseURL}/otp/send`, {
@@ -51,17 +53,17 @@ export const Register = () => {
         setOtpSent(true);
         setCanResend(false);
         setTimer(60); // reset timer
-        alert("OTP sent to your email!");
+        toast.success("OTP sent to your email!");
       }
     } catch (error) {
-      alert("Failed to send OTP: " + (error.response?.data?.message || ""));
+      toast.error("Failed to send OTP: " + (error.response?.data?.message || ""));
     } finally {
       setIsSendingOtp(false);
     }
   };
 
   const handleVerifyOtp = async () => {
-    if (!otp) return alert("Please enter the OTP.");
+    if (!otp) return toast.error("Please enter the OTP.");
     try {
       setIsVerifyingOtp(true);
       const res = await axiosInstance.post(`${baseURL}/otp/verify`, {
@@ -69,13 +71,11 @@ export const Register = () => {
         otp,
       });
       if (res.status === 200) {
-        alert("Email verified!");
+        toast.success("Email verified!");
         setIsOtpVerified(true);
       }
     } catch (error) {
-      alert(
-        "OTP verification failed: " + (error.response?.data?.message || "")
-      );
+      toast.error("OTP verification failed: " + (error.response?.data?.message || ""));
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -84,11 +84,11 @@ export const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
     if (!isOtpVerified) {
-      alert("Please verify your email before registering.");
+      toast.warning("Please verify your email before registering.");
       return;
     }
 
@@ -105,7 +105,7 @@ export const Register = () => {
       }
     } catch (error) {
       console.error("Registration failed", error);
-      alert(
+      toast.error(
         `Error: ${
           error.response?.data?.message ||
           "Something went wrong. Please try again."
