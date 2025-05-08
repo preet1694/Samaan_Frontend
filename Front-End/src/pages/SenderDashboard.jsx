@@ -349,7 +349,7 @@ export const SenderDashboard = () => {
           Prev
         </button>
         <p className="text-sm text-gray-500 mx-4">
-          Page {currentPage} of {totalPages}
+          Page {currentPage} of {totalPages||1}
         </p>
         <button
           onClick={() =>
