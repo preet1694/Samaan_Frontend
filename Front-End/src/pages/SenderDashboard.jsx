@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { CheckCircle, Clock } from "lucide-react";
 import ReactStars from "react-stars";
 import toast, { Toaster } from "react-hot-toast";
-import axiosInstance,{baseURL} from "../config/AxiosHelper";
-import PaymentButton from "./PaymentButton.jsx";
+import axiosInstance, { baseURL } from "../config/AxiosHelper";
+import PaymentButton from "../components/PaymentButton";
 
 export const SenderDashboard = () => {
   const navigate = useNavigate();
@@ -23,7 +23,9 @@ export const SenderDashboard = () => {
 
   const fetchSelectedTrips = async () => {
     try {
-      const response = await axiosInstance.get(`${baseURL}/trips/sender/${senderEmail}`);
+      const response = await axiosInstance.get(
+        `${baseURL}/trips/sender/${senderEmail}`
+      );
       const sortedTrips = response.data.sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
@@ -292,15 +294,15 @@ export const SenderDashboard = () => {
                       ) : (
                         <>
                           {!trip.paid && (
-                              <PaymentButton
-                                  tripId={id}
-                                  amount={trip.amount}
-                                  senderEmail={senderEmail}
-                                  onSuccess={() => {
-                                    toast.success("Payment marked as done!");
-                                    fetchSelectedTrips();
-                                  }}
-                              />
+                            <PaymentButton
+                              tripId={id}
+                              amount={trip.amount}
+                              senderEmail={senderEmail}
+                              onSuccess={() => {
+                                toast.success("Payment marked as done!");
+                                fetchSelectedTrips();
+                              }}
+                            />
                           )}
                           {showCancelButton &&
                             new Date(trip.date) >= new Date() && (

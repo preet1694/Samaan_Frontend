@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Package, MapPin, Calendar, DollarSign } from "lucide-react";
-import axiosInstance,  {baseURL} from "../config/AxiosHelper";
+import axiosInstance, { baseURL } from "../config/AxiosHelper";
 
 export const CarrierDashboard = () => {
   const navigate = useNavigate();
@@ -234,14 +234,21 @@ export const CarrierDashboard = () => {
                           </span>
                         ) : (
                           <div className="space-y-1">
-                            {new Date(trip.date) < today && (
-                              <button
-                                className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-md"
-                                onClick={() => setCompleteModalTripId(trip.id)}
-                              >
-                                Mark as Completed
-                              </button>
-                            )}
+                            {new Date(trip.date) < today &&
+                              (trip.paid ? (
+                                <button
+                                  className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                                  onClick={() =>
+                                    setCompleteModalTripId(trip.id)
+                                  }
+                                >
+                                  Mark as Completed
+                                </button>
+                              ) : (
+                                <span className="px-3 py-1 bg-yellow-300 text-yellow-900 rounded-md font-medium">
+                                  Payment Pending
+                                </span>
+                              ))}
                             {new Date(trip.date) >= today &&
                               !trip.senderRequestedCancel &&
                               !trip.carrierRequestedCancel && (
