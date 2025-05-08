@@ -10,7 +10,9 @@ export const CarrierDashboard = () => {
   const [cancelModalTripId, setCancelModalTripId] = useState(null);
   const [completeModalTripId, setCompleteModalTripId] = useState(null);
 
-  const today = new Date(new Date().toDateString());
+  const today = new Date().toLocaleString("en-IN", {
+  timeZone: "Asia/Kolkata"
+});
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -234,7 +236,7 @@ export const CarrierDashboard = () => {
                           </span>
                         ) : (
                           <div className="space-y-1">
-                            {new Date(trip.date) < today &&
+                            {new Date(trip.date) <= today &&
                               (trip.paid ? (
                                 <button
                                   className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded-md"
