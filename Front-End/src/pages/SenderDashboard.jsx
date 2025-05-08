@@ -232,7 +232,6 @@ export const SenderDashboard = () => {
                 return (
                   <tr key={id} className="hover:bg-gray-50">
                     <TableData>{indexOfFirstTrip + idx + 1}</TableData>
-                    <TableData>#{id}</TableData>
                     <TableData>{carrierName}</TableData>
                     <TableData>{source}</TableData>
                     <TableData>{destination}</TableData>
