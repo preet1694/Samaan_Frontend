@@ -12,8 +12,8 @@ import {
 import profileimg from "../assets/profile.jpg";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import {toast} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Profile = () => {
   const [profile, setProfile] = useState(null);
@@ -46,22 +46,11 @@ export const Profile = () => {
 
   const fetchWalletAmount = async () => {
     try {
-      const response = await axiosInstance.post(
-        `${baseURL}/trips/completed/byCarrier`,
-        {
-          email: storedEmail,
-        }
+      let userId = storedEmail;
+      const walletResponse = await axiosInstance.get(
+        `${baseURL}/wallets/${userId}`
       );
-
-      const completedTrips = response.data || [];
-      let total = 0;
-      completedTrips.forEach((trip) => {
-        if (trip.price && trip.price >= 5) {
-          total += trip.price - 5;
-        }
-      });
-
-      setWalletAmount(total);
+      setWalletAmount(walletResponse.data.balance || 0);
     } catch (error) {
       console.error("Error fetching wallet amount:", error);
     }
@@ -83,7 +72,10 @@ export const Profile = () => {
       });
 
       setWithdrawStatus(`✅ Payout initiated! ID: ${res.data.payoutId}`);
-      setWalletAmount(0);
+      await axiosInstance.put(`${baseURL}/wallets/${carrierId}/updatebalance`, {
+        amount: 0,
+      });
+      fetchWalletAmount();
     } catch (err) {
       console.error("Withdrawal failed:", err);
       setWithdrawStatus("❌ Withdrawal failed.");

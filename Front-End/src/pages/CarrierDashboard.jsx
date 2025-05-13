@@ -43,8 +43,12 @@ export const CarrierDashboard = () => {
     }
   };
 
-  const markTripAsCompleted = async (tripId) => {
+  const markTripAsCompleted = async (tripId, carrierId) => {
     try {
+      const tripResponse = await axiosInstance.get(
+        `${baseURL}/trips/${tripId}`
+      );
+      const trip = tripResponse.data;
       await axiosInstance.put(`${baseURL}/trips/complete/${tripId}`);
       setTrips((prevTrips) =>
         prevTrips.map((trip) =>
@@ -52,6 +56,15 @@ export const CarrierDashboard = () => {
         )
       );
       setCompleteModalTripId(null);
+       const amount = trip.price;
+       const walletResponse = await axiosInstance.get(
+         `${baseURL}/wallets/${carrierId}/balance`
+       );
+       const currentBalance = walletResponse.data;
+       const newBalance = currentBalance + amount;
+       await axiosInstance.put(`${baseURL}/wallets/${carrierId}/updatebalance`, {
+         amount: newBalance,
+       });
     } catch (error) {
       console.error("Error marking trip as completed:", error);
     }
