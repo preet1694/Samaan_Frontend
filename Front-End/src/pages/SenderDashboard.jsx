@@ -162,7 +162,6 @@ export const SenderDashboard = () => {
           <thead className="bg-indigo-100">
             <tr>
               <TableHeader>#</TableHeader>
-              <TableHeader>Trip ID</TableHeader>
               <TableHeader>Carrier</TableHeader>
               <TableHeader>Source</TableHeader>
               <TableHeader>Destination</TableHeader>
