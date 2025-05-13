@@ -38,6 +38,7 @@ export const GoogleAuth = () => {
           localStorage.setItem("email", data.email);
           localStorage.setItem("name", data.name);
 
+
           if (data.role === "sender") {
             navigate("/search-carrier");
           } else if (data.role === "carrier") {
@@ -55,7 +56,7 @@ export const GoogleAuth = () => {
       });
   };
 
-  const handleRoleSelection = () => {
+  const handleRoleSelection =async () => {
     if (!userRole) {
       setErrorMessage("Please select a role.");
       return;
@@ -69,7 +70,8 @@ export const GoogleAuth = () => {
         userEmail,
         userName,
       })
-      .then((response) => {
+      .then(
+        async (response) => {
         const data = response.data;
         console.log(data);
         localStorage.setItem("jwtToken", data.token); // JWT token
@@ -78,6 +80,13 @@ export const GoogleAuth = () => {
         localStorage.setItem("userRole", data.role);
         localStorage.setItem("email", data.email);
         localStorage.setItem("name", data.name);
+     
+        await axiosInstance.post(`${baseURL}/wallets`, null, {
+        params: {
+          userId: userIdToUse,
+          currency: "INR",
+        },
+      });
 
         if (data.role === "sender") {
           navigate("/search-carrier");

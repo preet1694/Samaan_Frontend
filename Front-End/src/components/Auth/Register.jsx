@@ -56,7 +56,9 @@ export const Register = () => {
         toast.success("OTP sent to your email!");
       }
     } catch (error) {
-      toast.error("Failed to send OTP: " + (error.response?.data?.message || ""));
+      toast.error(
+        "Failed to send OTP: " + (error.response?.data?.message || "")
+      );
     } finally {
       setIsSendingOtp(false);
     }
@@ -75,7 +77,9 @@ export const Register = () => {
         setIsOtpVerified(true);
       }
     } catch (error) {
-      toast.error("OTP verification failed: " + (error.response?.data?.message || ""));
+      toast.error(
+        "OTP verification failed: " + (error.response?.data?.message || "")
+      );
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -98,6 +102,13 @@ export const Register = () => {
         email: formData.email,
         password: formData.password,
         role: formData.role,
+      });
+
+      await axiosInstance.post(`${baseURL}/wallets`, null, {
+        params: {
+          userId: userIdToUse,
+          currency: "INR",
+        },
       });
 
       if (response.status === 200 || response.status === 201) {
